@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBank | Dashboard</title>
+    <script>document.documentElement.dataset.theme = localStorage.getItem('mb_theme') || 'light'</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=5">
+</head>
+
+<body>
+    <div id="hdr"></div>
+    <main class="wrap" id="dash" style="max-width:1150px">
+        <div class="dash-grid">
+            <aside class="side" aria-label="Dashboard menu">
+                <h4>Accounts</h4>
+                <button type="button" data-tab="overview" aria-current="true"><i class="fa-solid fa-house"></i>Overview</button>
+                <button type="button" data-tab="balance"><i class="fa-solid fa-scale-balanced"></i>Balance enquiry</button>
+                <button type="button" data-tab="add"><i class="fa-solid fa-circle-plus"></i>Deposit money</button>
+                <button type="button" data-tab="withdraw"><i class="fa-solid fa-building-columns"></i>Withdraw money</button>
+                <h4>Payments</h4>
+                <button type="button" data-tab="send"><i class="fa-solid fa-paper-plane"></i>UPI payment</button>
+                <button type="button" data-tab="qr"><i class="fa-solid fa-qrcode"></i>QR payment</button>
+                <button type="button" data-tab="transfer"><i class="fa-solid fa-right-left"></i>Fund transfer</button>
+                <button type="button" data-tab="benef"><i class="fa-solid fa-address-book"></i>Beneficiaries</button>
+                <h4>Records</h4>
+                <button type="button" data-tab="history"><i class="fa-solid fa-clock-rotate-left"></i>Transaction history</button>
+                <button type="button" data-tab="statement"><i class="fa-solid fa-file-pdf"></i>Statements</button>
+                <button type="button" data-tab="analytics"><i class="fa-solid fa-chart-pie"></i>Spending analytics</button>
+                <h4>Loans &amp; savings</h4>
+                <button type="button" data-tab="loan"><i class="fa-solid fa-hand-holding-dollar"></i>Loan application</button>
+                <button type="button" data-tab="calc"><i class="fa-solid fa-calculator"></i>EMI &amp; FD calculators</button>
+                <h4>Account</h4>
+                <button type="button" data-tab="notif"><i class="fa-solid fa-bell"></i>Notifications<span class="badge" id="sideN" hidden></span></button>
+                <button type="button" data-tab="profile"><i class="fa-solid fa-user-gear"></i>Profile</button>
+            </aside>
+
+            <div>
+                <!-- OVERVIEW -->
+                <section id="t-overview">
+                    <h1>Welcome, <span id="who"></span></h1>
+                    <p class="muted" id="acc"></p>
+                    <div class="bal"><small>Available balance</small>
+                        <h2 id="balance">₹0.00</h2>
+                        <div class="upi-chip"><i class="fa-solid fa-at"></i><span id="upi"></span>
+                            <button type="button" id="copyUpi" aria-label="Copy my UPI ID"><i class="fa-regular fa-copy"></i></button></div>
+                    </div>
+                    <div class="quick">
+                        <button type="button" data-tab="send"><i class="fa-solid fa-paper-plane"></i>Send</button>
+                        <button type="button" data-tab="qr"><i class="fa-solid fa-qrcode"></i>QR pay</button>
+                        <button type="button" data-tab="add"><i class="fa-solid fa-circle-plus"></i>Deposit</button>
+                        <button type="button" data-tab="transfer"><i class="fa-solid fa-right-left"></i>Transfer</button>
+                    </div>
+                    <div class="stat-row">
+                        <div class="panel"><small class="muted">Money in · this month</small><h3 class="plus" id="sIn">₹0.00</h3></div>
+                        <div class="panel"><small class="muted">Money out · this month</small><h3 class="minus" id="sOut">₹0.00</h3></div>
+                    </div>
+                    <div class="panel"><h3>Recent transactions</h3><ul class="txl" id="recent"></ul>
+                        <button type="button" class="linkbtn" data-tab="history">View all →</button></div>
+                </section>
+
+                <!-- BALANCE ENQUIRY -->
+                <section id="t-balance" hidden>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-scale-balanced"></i> Balance enquiry</h3>
+                        <div class="balbox"><small class="muted">Available balance</small><h2 id="beBal">₹ ••••••</h2><small class="muted" id="beAsOf">Balance is hidden. Verify with your UPI PIN to view.</small></div>
+                        <button class="btn dark" id="beBtn" type="button"><i class="fa-solid fa-lock"></i> Check balance</button>
+                        <h4>Account details</h4>
+                        <dl class="facts" id="beFacts"></dl>
+                    </div>
+                </section>
+
+                <!-- DEPOSIT -->
+                <section id="t-add" hidden>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-circle-plus"></i> Deposit money</h3>
+                        <p class="muted sp">Add money to your MyBank balance. You will confirm with your UPI PIN.</p>
+                        <div class="field"><i class="fa-solid fa-indian-rupee-sign"></i><input id="addAmt" type="number" min="1" step="0.01" inputmode="decimal" placeholder="Enter amount" aria-label="Amount to deposit"></div>
+                        <div class="chips" data-fill="#addAmt"><button type="button" data-amt="500">+ ₹500</button><button type="button" data-amt="1000">+ ₹1,000</button><button type="button" data-amt="2000">+ ₹2,000</button><button type="button" data-amt="5000">+ ₹5,000</button></div>
+                        <div class="field"><i class="fa-solid fa-wallet"></i><select id="addSrc" aria-label="Deposit source"><option>UPI app</option><option>Debit card</option><option>Net banking</option><option>Cash at branch</option></select></div>
+                        <button class="btn dark" id="addBtn" type="button">Proceed to deposit</button>
+                    </div>
+                </section>
+
+                <!-- WITHDRAW -->
+                <section id="t-withdraw" hidden>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-building-columns"></i> Withdraw money</h3>
+                        <p class="muted sp">Available balance: <b id="wdBal"></b></p>
+                        <div class="field"><i class="fa-solid fa-indian-rupee-sign"></i><input id="wdAmt" type="number" min="1" step="0.01" inputmode="decimal" placeholder="Enter amount" aria-label="Amount to withdraw"></div>
+                        <div class="chips" data-fill="#wdAmt"><button type="button" data-amt="500">₹500</button><button type="button" data-amt="1000">₹1,000</button><button type="button" data-amt="5000">₹5,000</button><button type="button" data-amt="all">All</button></div>
+                        <div class="field"><i class="fa-solid fa-landmark"></i><select id="wdTo" aria-label="Withdraw to"><option>My linked bank account</option><option>ATM cash (cardless)</option></select></div>
+                        <button class="btn alt" id="wdBtn" type="button">Proceed to withdraw</button>
+                    </div>
+                </section>
+
+                <!-- UPI PAYMENT -->
+                <section id="t-send" hidden>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-paper-plane"></i> UPI payment</h3>
+                        <p class="muted sp">Pay a UPI ID, mobile number or MyBank customer in seconds.</p>
+                        <div class="field"><i class="fa-solid fa-user"></i><input id="payTo" type="text" autocomplete="off" placeholder="UPI ID, mobile number or account no." aria-label="Pay to"></div>
+                        <div class="payee" id="payee" hidden></div>
+                        <div id="payeesBox" hidden><small class="muted">Recent payees</small><div class="chips" id="payees"></div></div>
+                        <div class="two">
+                            <div class="field"><i class="fa-solid fa-indian-rupee-sign"></i><input id="payAmt" type="number" min="1" step="0.01" inputmode="decimal" placeholder="Amount" aria-label="Amount to send"></div>
+                            <div class="field"><i class="fa-solid fa-tag"></i><select id="payCat" class="catsel" aria-label="Category"></select></div>
+                        </div>
+                        <div class="field"><i class="fa-solid fa-pen"></i><input id="payNote" type="text" maxlength="50" placeholder="Add a note (optional)" aria-label="Note"></div>
+                        <p class="hint">Available: <b class="balTxt"></b> · Limit ₹1,00,000 per payment</p>
+                        <button class="btn dark" id="payBtn" type="button"><i class="fa-solid fa-lock"></i> Pay securely</button>
+                    </div>
+                </section>
+
+                <!-- QR -->
+                <section id="t-qr" hidden>
+                    <div class="calcgrid">
+                        <div class="panel center">
+                            <h3><i class="fa-solid fa-qrcode"></i> My QR code</h3>
+                            <p class="muted sp">Show this to receive money. Anyone can scan it with a UPI app.</p>
+                            <div class="qrbox" id="qrBox" aria-label="My payment QR code"></div>
+                            <div class="field" style="text-align:left"><i class="fa-solid fa-indian-rupee-sign"></i><input id="qrAmt" type="number" min="1" step="0.01" placeholder="Amount (optional)" aria-label="QR amount"></div>
+                            <p class="hint" id="qrLink" style="word-break:break-all;margin:0 0 12px"></p>
+                            <div class="row"><button class="btn dark small" id="qrDl" type="button"><i class="fa-solid fa-download"></i> Save QR</button><button class="btn alt small" id="qrCp" type="button"><i class="fa-regular fa-copy"></i> Copy link</button></div>
+                        </div>
+                        <div class="panel">
+                            <h3><i class="fa-solid fa-camera"></i> Pay by scanning a QR</h3>
+                            <div class="row wrap2" style="margin-bottom:14px">
+                                <button class="btn dark small" id="qrScan" type="button"><i class="fa-solid fa-camera"></i> Scan with camera</button>
+                                <label class="btn alt small" for="qrFile" style="cursor:pointer"><i class="fa-solid fa-image"></i> Upload QR image</label>
+                                <input id="qrFile" type="file" accept="image/*" hidden>
+                            </div>
+                            <label class="lbl" for="qrIn">Or paste the QR / UPI link</label>
+                            <div class="field"><i class="fa-solid fa-link"></i><input id="qrIn" type="text" placeholder="upi://pay?pa=name@bank&pn=Name&am=100" autocomplete="off"></div>
+                            <button class="btn alt small" id="qrRead" type="button" style="margin-bottom:14px">Read QR</button>
+                            <div class="payee" id="qrPayee" hidden></div>
+                            <div id="qrPay" hidden>
+                                <div class="two">
+                                    <div class="field"><i class="fa-solid fa-indian-rupee-sign"></i><input id="qrPAmt" type="number" min="1" step="0.01" placeholder="Amount" aria-label="Amount"></div>
+                                    <div class="field"><i class="fa-solid fa-tag"></i><select id="qrCat" class="catsel" aria-label="Category"></select></div>
+                                </div>
+                                <button class="btn dark" id="qrPayBtn" type="button"><i class="fa-solid fa-lock"></i> Pay securely</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FUND TRANSFER -->
+                <section id="t-transfer" hidden>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-right-left"></i> Fund transfer</h3>
+                        <p class="muted sp">Send money to any bank account using account number and IFSC.</p>
+                        <label class="lbl" for="trBen">Pay to</label>
+                        <div class="field"><i class="fa-solid fa-address-book"></i><select id="trBen" aria-label="Beneficiary"></select></div>
+                        <div id="trNew">
+                            <div class="field"><i class="fa-solid fa-user"></i><input id="trName" type="text" placeholder="Account holder name" maxlength="40" aria-label="Account holder name"></div>
+                            <div class="two">
+                                <div class="field"><i class="fa-solid fa-hashtag"></i><input id="trAcc" type="text" inputmode="numeric" placeholder="Account number" maxlength="18" aria-label="Account number"></div>
+                                <div class="field"><i class="fa-solid fa-building-columns"></i><input id="trIfsc" type="text" placeholder="IFSC (e.g. MYBK0001234)" maxlength="11" style="text-transform:uppercase" aria-label="IFSC"></div>
+                            </div>
+                            <label class="check"><input type="checkbox" id="trSave"> Save as beneficiary</label>
+                        </div>
+                        <div class="two">
+                            <div class="field"><i class="fa-solid fa-indian-rupee-sign"></i><input id="trAmt" type="number" min="1" step="0.01" inputmode="decimal" placeholder="Amount" aria-label="Amount"></div>
+                            <div class="field"><i class="fa-solid fa-bolt"></i><select id="trMode" aria-label="Transfer mode"><option value="IMPS">IMPS · instant</option><option value="NEFT">NEFT · batch</option></select></div>
+                        </div>
+                        <div class="field"><i class="fa-solid fa-pen"></i><input id="trNote" type="text" maxlength="50" placeholder="Remarks (optional)" aria-label="Remarks"></div>
+                        <p class="hint">Available: <b class="balTxt"></b> · Limit ₹1,00,000 per transfer</p>
+                        <button class="btn dark" id="trBtn" type="button"><i class="fa-solid fa-lock"></i> Transfer securely</button>
+                    </div>
+                </section>
+
+                <!-- BENEFICIARIES -->
+                <section id="t-benef" hidden>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-address-book"></i> Add beneficiary</h3>
+                        <div class="two">
+                            <div class="field"><i class="fa-solid fa-user"></i><input id="bName" type="text" maxlength="40" placeholder="Account holder name" aria-label="Name"></div>
+                            <div class="field"><i class="fa-solid fa-tag"></i><input id="bNick" type="text" maxlength="20" placeholder="Nickname (optional)" aria-label="Nickname"></div>
+                            <div class="field"><i class="fa-solid fa-hashtag"></i><input id="bAcc" type="text" inputmode="numeric" maxlength="18" placeholder="Account number" aria-label="Account number"></div>
+                            <div class="field"><i class="fa-solid fa-hashtag"></i><input id="bAcc2" type="text" inputmode="numeric" maxlength="18" placeholder="Confirm account number" aria-label="Confirm account number"></div>
+                        </div>
+                        <div class="field"><i class="fa-solid fa-building-columns"></i><input id="bIfsc" type="text" maxlength="11" placeholder="IFSC (e.g. MYBK0001234)" style="text-transform:uppercase" aria-label="IFSC"></div>
+                        <button class="btn dark" id="bAdd" type="button">Add beneficiary</button>
+                    </div>
+                    <div class="panel"><h3>Saved beneficiaries</h3><ul class="list" id="bList"></ul></div>
+                </section>
+
+                <!-- HISTORY -->
+                <section id="t-history" hidden>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-clock-rotate-left"></i> Transaction history</h3>
+                        <div class="field"><i class="fa-solid fa-magnifying-glass"></i><input id="hq" type="search" placeholder="Search name, note, amount or ID" aria-label="Search payments"></div>
+                        <div class="chips" id="hf"><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="in" aria-pressed="false">Money in</button><button type="button" data-f="out" aria-pressed="false">Money out</button>
+                            <button type="button" id="csv" class="ghost"><i class="fa-solid fa-download"></i> CSV</button></div>
+                        <p class="muted" id="hcount" aria-live="polite"></p>
+                        <ul class="txl" id="hist"></ul>
+                    </div>
+                </section>
+
+                <!-- STATEMENTS -->
+                <section id="t-statement" hidden>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-list"></i> Mini statement</h3>
+                        <p class="muted sp">Your last 5 transactions.</p>
+                        <div class="scroll"><table class="tbl"><thead><tr><th>Date</th><th>Details</th><th class="r">Amount</th><th class="r">Balance</th></tr></thead><tbody id="mini"></tbody></table></div>
+                        <button class="btn alt small" id="miniPdf" type="button" style="margin-top:14px"><i class="fa-solid fa-file-pdf"></i> Download mini statement</button>
+                    </div>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-file-pdf"></i> Download PDF statement</h3>
+                        <div class="field"><i class="fa-solid fa-calendar"></i>
+                            <select id="stPeriod" aria-label="Statement period"><option value="30">Last 30 days</option><option value="month">This month</option><option value="last">Last month</option><option value="90">Last 3 months</option><option value="all">All time</option><option value="custom">Custom dates</option></select></div>
+                        <div class="two" id="stCustom" hidden>
+                            <div><label class="lbl" for="stFrom">From</label><div class="field"><i class="fa-solid fa-calendar-day"></i><input id="stFrom" type="date"></div></div>
+                            <div><label class="lbl" for="stTo">To</label><div class="field"><i class="fa-solid fa-calendar-day"></i><input id="stTo" type="date"></div></div>
+                        </div>
+                        <p class="hint" id="stCount"></p>
+                        <button class="btn dark" id="stBtn" type="button"><i class="fa-solid fa-download"></i> Download PDF</button>
+                    </div>
+                </section>
+
+                <!-- ANALYTICS -->
+                <section id="t-analytics" hidden>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-chart-pie"></i> Spending analytics</h3>
+                        <div class="field"><i class="fa-solid fa-calendar"></i><select id="anR" aria-label="Period"><option value="month">This month</option><option value="30">Last 30 days</option><option value="180">Last 6 months</option><option value="all">All time</option></select></div>
+                        <div class="tiles" id="anTiles"></div>
+                        <h4>Spending by category</h4>
+                        <div class="donutwrap" id="anDonut"></div>
+                    </div>
+                    <div class="panel"><h3>Money in vs out · last 6 months</h3><div id="anBars"></div></div>
+                    <div class="panel"><h3>Top payees</h3><ul class="list" id="anPayees"></ul></div>
+                </section>
+
+                <!-- LOANS -->
+                <section id="t-loan" hidden>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-hand-holding-dollar"></i> Apply for a loan</h3>
+                        <div class="two">
+                            <div><label class="lbl" for="lnType">Loan type</label><div class="field"><i class="fa-solid fa-list"></i><select id="lnType"><option>Personal</option><option>Home</option><option>Education</option><option>Vehicle</option><option>Gold</option></select></div></div>
+                            <div><label class="lbl" for="lnAmt">Amount (₹)</label><div class="field"><i class="fa-solid fa-indian-rupee-sign"></i><input id="lnAmt" type="number" min="10000" max="10000000" step="1000" value="200000"></div></div>
+                            <div><label class="lbl" for="lnN">Tenure (months)</label><div class="field"><i class="fa-solid fa-calendar"></i><input id="lnN" type="number" min="6" max="360" step="1" value="36"></div></div>
+                            <div><label class="lbl" for="lnInc">Monthly income (₹)</label><div class="field"><i class="fa-solid fa-sack-dollar"></i><input id="lnInc" type="number" min="1" step="1000" placeholder="e.g. 30000"></div></div>
+                        </div>
+                        <div class="field"><i class="fa-solid fa-pen"></i><input id="lnWhy" type="text" maxlength="60" placeholder="Purpose of the loan" aria-label="Purpose"></div>
+                        <div class="res" id="lnPrev"></div>
+                        <button class="btn dark" id="lnBtn" type="button" style="margin-top:14px">Submit application</button>
+                    </div>
+                    <div class="panel"><h3>My applications</h3><ul class="list" id="lnList"></ul></div>
+                </section>
+
+                <!-- CALCULATORS -->
+                <section id="t-calc" hidden><div id="calcs"></div></section>
+
+                <!-- NOTIFICATIONS -->
+                <section id="t-notif" hidden>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-bell"></i> Notifications</h3>
+                        <div class="row wrap2" style="margin-bottom:10px"><button class="btn alt small" id="nRead" type="button">Mark all as read</button><button class="btn alt small" id="nClear" type="button">Clear all</button></div>
+                        <ul class="list" id="nList"></ul>
+                    </div>
+                </section>
+
+                <!-- PROFILE -->
+                <section id="t-profile" hidden>
+                    <div class="panel">
+                        <div class="avatar" id="avatar"></div>
+                        <h3>Profile</h3>
+                        <div class="two">
+                            <div><label class="lbl" for="pfName">Full name</label><div class="field"><i class="fa-solid fa-user"></i><input id="pfName" type="text" maxlength="40"></div></div>
+                            <div><label class="lbl" for="pfPhone">Phone</label><div class="field"><i class="fa-solid fa-phone"></i><input id="pfPhone" type="tel" maxlength="14"></div></div>
+                            <div><label class="lbl" for="pfEmail">Email (cannot be changed)</label><div class="field"><i class="fa-solid fa-envelope"></i><input id="pfEmail" type="email" readonly></div></div>
+                            <div><label class="lbl" for="pfDob">Date of birth</label><div class="field"><i class="fa-solid fa-cake-candles"></i><input id="pfDob" type="text" readonly></div></div>
+                        </div>
+                        <label class="lbl" for="pfAddr">Address</label>
+                        <div class="field"><i class="fa-solid fa-location-dot"></i><input id="pfAddr" type="text" maxlength="100" placeholder="House, street, city, PIN"></div>
+                        <button class="btn dark" id="pfSave" type="button">Save profile</button>
+                    </div>
+                    <div class="panel">
+                        <h3><i class="fa-solid fa-key"></i> Security</h3>
+                        <h4>Change password</h4>
+                        <div class="field"><i class="fa-solid fa-lock"></i><input id="pwOld" type="password" placeholder="Current password" autocomplete="current-password"></div>
+                        <div class="two">
+                            <div class="field"><i class="fa-solid fa-lock"></i><input id="pwNew" type="password" placeholder="New password (6+ characters)" autocomplete="new-password"></div>
+                            <div class="field"><i class="fa-solid fa-lock"></i><input id="pwNew2" type="password" placeholder="Confirm new password" autocomplete="new-password"></div>
+                        </div>
+                        <button class="btn alt small" id="pwBtn" type="button">Update password</button>
+                        <h4>UPI PIN</h4>
+                        <p class="muted sp" id="pinState"></p>
+                        <button class="btn alt small" id="pinBtn" type="button">Set / change UPI PIN</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <footer id="ftr"></footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/app.js?v=5"></script>
+    <script src="js/dashboard.js?v=5"></script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBank | Login</title>
+        <script>document.documentElement.dataset.theme = localStorage.getItem('mb_theme') || 'light'</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=5">
+</head>
+
+<body>
+    <div id="hdr"></div>
+    <main class="auth">
+        <div class="box">
+            <h1>Welcome back</h1>
+            <p class="sub">Log in with the account you created.</p>
+            <form id="loginForm">
+                <label class="lbl" for="username">Username, name or email</label>
+                <div class="field"><i class="fa-solid fa-user"></i><input id="username"
+                        placeholder="Enter your username"
+                        autocomplete="username" required></div>
+                <label class="lbl" for="password">Password</label>
+                <div class="field"><i class="fa-solid fa-lock"></i><input type="password" id="password"
+                        placeholder="Enter your password" autocomplete="current-password" required><button
+                        type="button" class="eye" aria-label="Show password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+                <p id="msg" class="msg" role="alert"></p><button class="btn dark" type="submit">Log in</button>
+            </form>
+            <p class="alt-link">New to MyBank? <a href="signup.html">Create an account</a></p>
+        </div>
+    </main>
+    <footer id="ftr"></footer>
+    <script src="js/app.js?v=5"></script>
+</body>
+
+</html>

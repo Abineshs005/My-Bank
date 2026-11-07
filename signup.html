@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBank | Sign Up</title>
+        <script>document.documentElement.dataset.theme = localStorage.getItem('mb_theme') || 'light'</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=5">
+</head>
+
+<body>
+    <div id="hdr"></div>
+    <main class="auth">
+        <div class="box">
+            <h1>Create your account</h1>
+            <p class="sub">Open a MyBank account in minutes.</p>
+            <form id="signupForm">
+                <label class="lbl" for="fullname">Full name</label>
+                <div class="field"><i class="fa-solid fa-user"></i><input id="fullname" placeholder="Enter your full name" autocomplete="name" required></div>
+                <label class="lbl" for="username">Username</label>
+                <div class="field"><i class="fa-solid fa-at"></i><input id="username" placeholder="Choose a username" autocomplete="username" required></div>
+                <p class="hint">Use 3 to 20 letters, numbers or underscores.</p>
+                <label class="lbl" for="email">Email address</label>
+                <div class="field"><i class="fa-solid fa-envelope"></i><input type="email" id="email" placeholder="name@example.com" autocomplete="email" required></div>
+                <label class="lbl" for="phone">Phone number</label>
+                <div class="field"><i class="fa-solid fa-phone"></i><input type="tel" id="phone" placeholder="10-digit mobile number" autocomplete="tel" required></div>
+                <span class="lbl" id="dobLbl">Date of birth</span>
+                <div class="dob" role="group" aria-labelledby="dobLbl">
+                    <div class="field"><select id="dobD" aria-label="Day" required></select></div>
+                    <div class="field"><select id="dobM" aria-label="Month" required></select></div>
+                    <div class="field"><select id="dobY" aria-label="Year" required></select></div>
+                    <input type="hidden" id="dob">
+                </div>
+                <label class="lbl" for="accountType">Account type</label>
+                <div class="field"><i class="fa-solid fa-list"></i><select id="accountType" required>
+                        <option value="">Select account type</option>
+                        <option>Savings Account</option>
+                        <option>Checking Account</option>
+                        <option>Business Account</option>
+                    </select></div>
+                <label class="lbl" for="password">Password</label>
+                <div class="field"><i class="fa-solid fa-lock"></i><input type="password" id="password" placeholder="At least 6 characters" autocomplete="new-password" required><button type="button" class="eye" aria-label="Show password"><i class="fa-solid fa-eye"></i></button></div>
+                <p id="strength" class="hint"></p>
+                <label class="lbl" for="confirmPassword">Confirm password</label>
+                <div class="field"><i class="fa-solid fa-lock"></i><input type="password" id="confirmPassword" placeholder="Re-enter your password" autocomplete="new-password" required></div>
+                <p id="msg" class="msg" role="alert"></p><button class="btn dark" type="submit">Create account</button>
+            </form>
+            <p class="alt-link">Already have an account? <a href="login.html">Log in</a></p>
+        </div>
+    </main>
+    <footer id="ftr"></footer>
+    <script src="js/app.js?v=5"></script>
+</body>
+
+</html>

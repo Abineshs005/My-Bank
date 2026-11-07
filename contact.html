@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBank | Contact</title>
+        <script>document.documentElement.dataset.theme = localStorage.getItem('mb_theme') || 'light'</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=5">
+</head>
+
+<body>
+    <div id="hdr"></div>
+    <section class="banner">
+        <h1>Contact us</h1>
+        <p>We're here to help.</p>
+    </section>
+    <section class="wrap contact">
+        <div>
+            <h2>Get in touch</h2>
+            <div class="info"><i class="fa-solid fa-location-dot"></i>
+                <div><b>Address</b>
+                    <p> BNK Street , Trivandrum, Kerala</p>
+                </div>
+            </div>
+            <div class="info"><i class="fa-solid fa-phone"></i>
+                <div><b>Phone</b>
+                    <p><a href="tel:+91 5698234521">+91 5698234521</a></p>
+                </div>
+            </div>
+            <div class="info"><i class="fa-solid fa-envelope"></i>
+                <div><b>Email</b>
+                    <p><a href="mailto:developer@mybank.com">developer@mybank.com</a></p>
+                </div>
+            </div>
+            <div class="info"><i class="fa-solid fa-clock"></i>
+                <div><b>Working hours</b>
+                    <p>Monday to Saturday, 10:00 AM to 4:00 PM</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h2>Send a message</h2>
+            <form id="contactForm">
+                <div class="field"><i class="fa-solid fa-user"></i><input type="text" placeholder="Full name"
+                        aria-label="Full name" required></div>
+                <div class="field"><i class="fa-solid fa-envelope"></i><input type="email" placeholder="Email address"
+                        aria-label="Email" required></div>
+                <div class="field"><i class="fa-solid fa-phone"></i><input type="tel" placeholder="Phone number"
+                        aria-label="Phone" required></div>
+                <div class="field"><i class="fa-solid fa-tag"></i><input type="text" placeholder="Subject"
+                        aria-label="Subject" required></div>
+                <div class="field"><textarea rows="5" placeholder="How can we help?" aria-label="Message"
+                        required></textarea></div>
+                <button class="btn dark" type="submit">Send message</button>
+            </form>
+        </div>
+    </section>
+    <footer id="ftr"></footer>
+    <script src="js/app.js?v=5"></script>
+</body>
+
+</html>
